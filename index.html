@@ -37,6 +37,9 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',mon
 .nav-pill{padding:8px 16px;border-radius:20px;border:1px solid var(--border-red);background:transparent;color:var(--text-dim);cursor:pointer;font-weight:700;font-size:11px;transition:all 0.2s}
 .nav-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
+/* TOAST SAVE NOTIFICATION */
+#saveToast { position: fixed; bottom: 20px; right: 20px; background: var(--green); color: white; padding: 10px 20px; border-radius: 8px; display: none; font-weight: bold; z-index: 1000; }
+
 /* QUICK ACTION TAB */
 .quick-container{max-width:850px;margin:20px auto;padding:0 20px}
 .quick-card{background:var(--bg-card);border:1px solid var(--border-red);border-radius:16px;padding:25px;margin-bottom:20px}
@@ -64,6 +67,8 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',mon
 </head>
 <body>
 
+<div id="saveToast">✅ Changes Saved Locally</div>
+
 <div class="header">
   <div class="header-top">
     <div>
@@ -80,10 +85,12 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',mon
         <button class="nav-pill" id="btnALL" onclick="setTab('ALL')">📋 ALL COMPONENTS</button>
     </div>
     <div style="display:flex; gap:5px">
-        <button class="btn" style="padding:5px 10px; font-size:9px" onclick="exportData()">💾 BACKUP</button>
+        <button class="btn" style="padding:5px 10px; font-size:9px; color:var(--green)" onclick="exportData()">💾 BACKUP DATA</button>
+        <button class="btn" style="padding:5px 10px; font-size:9px" onclick="importDataTrigger()">📥 IMPORT</button>
         <button class="btn" style="padding:5px 10px; font-size:9px; border-color:var(--red)" onclick="resetData()">⚠ RESET</button>
     </div>
 </div>
+<input type="file" id="importFile" style="display:none" onchange="handleImport(event)">
 
 <div id="mainContent"></div>
 
@@ -107,12 +114,22 @@ const DEF_ITEMS = [
 let V, items, currentTab = "QUICK", activeId = null;
 
 function load() {
-  V = JSON.parse(localStorage.getItem("ninja_v_prod")) || JSON.parse(JSON.stringify(DEF_VEHICLE));
-  items = JSON.parse(localStorage.getItem("ninja_i_prod")) || JSON.parse(JSON.stringify(DEF_ITEMS));
+  const savedV = localStorage.getItem("ninja_v_prod");
+  const savedI = localStorage.getItem("ninja_i_prod");
+  V = savedV ? JSON.parse(savedV) : JSON.parse(JSON.stringify(DEF_VEHICLE));
+  items = savedI ? JSON.parse(savedI) : JSON.parse(JSON.stringify(DEF_ITEMS));
 }
+
 function persist() { 
   localStorage.setItem("ninja_v_prod", JSON.stringify(V)); 
   localStorage.setItem("ninja_i_prod", JSON.stringify(items)); 
+  showToast();
+}
+
+function showToast() {
+    const t = document.getElementById("saveToast");
+    t.style.display = "block";
+    setTimeout(() => { t.style.display = "none"; }, 2000);
 }
 
 const calcTotalCost = () => items.reduce((s, it) => s + it.history.reduce((sh, h) => sh + (Number(h.cost) || 0), 0), 0);
@@ -142,24 +159,18 @@ function renderStats() {
 }
 
 function renderQuickTab() {
-    const questions = [
-        { id:"chain", q:"⛓️ Finished a ride? Clean & Lube the chain?", note:"Recommended every 600km" },
-        { id:"oil", q:"🛢️ Fresh Oil? Did you change it recently?", note:"Ninja 400 loves fresh 10W-40" },
-        { id:"tyres", q:"🛞 Checked the pressures today?", note:"32F/36R for street performance" }
-    ];
     return `
     <div class="quick-container">
-        <h2 style="font-family:'Syne'; color:#fff; margin-bottom:10px">Quick Entry — Keep it fast.</h2>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:30px">Input your latest garage work below. Blank fields will be ignored.</p>
-        ${questions.map(q => `
+        <h2 style="font-family:'Syne'; color:#fff; margin-bottom:10px">Quick Entry</h2>
+        ${items.slice(0,3).map(q => `
             <div class="quick-card">
-                <div class="quick-question">${q.q}</div>
+                <div class="quick-question">${q.icon} ${q.component}</div>
                 <div class="quick-inputs">
                     <div><label class="stat-label">Date</label><input type="date" id="q_d_${q.id}" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
-                    <div><label class="stat-label">Odo (KM)</label><input type="number" id="q_k_${q.id}" class="form-input" placeholder="${V.currentKm}"></div>
-                    <div><label class="stat-label">Cost (${V.currency})</label><input type="number" id="q_c_${q.id}" class="form-input" value="0"></div>
+                    <div><label class="stat-label">Odo</label><input type="number" id="q_k_${q.id}" class="form-input" placeholder="${V.currentKm}"></div>
+                    <div><label class="stat-label">Cost</label><input type="number" id="q_c_${q.id}" class="form-input" value="0"></div>
                 </div>
-                <button class="btn btn-primary" style="margin-top:20px; width:100%" onclick="saveLog('${q.id}', true)">Update ${items.find(i=>i.id===q.id).component}</button>
+                <button class="btn btn-primary" style="margin-top:20px; width:100%" onclick="saveLog('${q.id}', true)">Save Entry</button>
             </div>
         `).join('')}
     </div>`;
@@ -174,15 +185,11 @@ function renderListTab() {
                     <div style="font-size:20px">${it.icon}</div>
                     <div style="flex:1">
                         <div style="font-weight:700">${it.component}</div>
-                        <div style="font-size:9px; color:var(--text-dim)">${it.category}</div>
-                    </div>
-                    <div style="text-align:right">
-                        <div style="font-size:11px">${it.nextKm ? it.nextKm.toLocaleString()+' km' : '---'}</div>
-                        <div style="font-size:8px; color:var(--text-muted)">NEXT DUE</div>
+                        <div style="font-size:9px; color:var(--text-dim)">Next Due: ${it.nextKm ? it.nextKm.toLocaleString()+' km' : '---'}</div>
                     </div>
                 </div>
             `).join('')}
-            <button class="btn" style="width:100%; border-style:dashed; margin-top:10px" onclick="addNewItem()">＋ Add Custom Component</button>
+            <button class="btn" style="width:100%; border-style:dashed; margin-top:10px" onclick="addNewItem()">＋ Add Component</button>
         </div>
         <div class="detail-panel" id="detailPanel"></div>
     </div>`;
@@ -195,61 +202,15 @@ function openDetail(id) {
     dp.style.display = "block";
     dp.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px">
-            <div style="font-size:24px">${it.icon} <span class="header-title" style="font-size:18px">${it.component}</span></div>
-            <button class="btn" style="padding:5px 10px" onclick="activeId=null;render()">✕</button>
+            <div style="font-size:20px">${it.icon} ${it.component}</div>
+            <button class="btn" onclick="activeId=null;render()">✕</button>
         </div>
-        
-        <div style="display:flex; gap:8px; margin-bottom:24px">
-            <button class="btn btn-primary" onclick="openLogModal('${it.id}')">＋ Log Service</button>
-            <button class="btn" onclick="openEditModal('${it.id}')">✏ Edit Setup</button>
-        </div>
-
-        <div class="stat-label" style="margin-bottom:10px">Current Status</div>
-        <div class="detail-row">
-            <div class="stat-label">STATUS</div>
-            <div class="stat-value" style="color:${it.nextKm && it.nextKm < V.currentKm ? 'var(--red)' : 'var(--green)'}">
-                ${it.nextKm && it.nextKm < V.currentKm ? '⚠️ OVERDUE' : '✅ OK'}
-            </div>
-        </div>
-        <div class="detail-row"><div class="stat-label">NEXT DUE MILEAGE</div><div class="stat-value">${it.nextKm ? it.nextKm.toLocaleString() + ' km' : 'Manual Entry'}</div></div>
-        <div class="detail-row">
-            <div class="stat-label">KM REMAINING</div>
-            <div class="stat-value" style="color:${it.nextKm && (it.nextKm - V.currentKm) < 1000 ? 'var(--amber)' : 'inherit'}">
-                ${it.nextKm ? (it.nextKm - V.currentKm).toLocaleString() + ' km' : '---'}
-            </div>
-        </div>
-
-        <div class="stat-label" style="margin:24px 0 10px">Maintenance Info</div>
-        <div class="detail-row"><div class="stat-label">SERVICE INTERVAL</div><div class="stat-value">${it.freqKm ? it.freqKm.toLocaleString()+' km' : 'N/A'} / ${it.freqMo ? it.freqMo+' months' : 'N/A'}</div></div>
-        <div class="detail-row"><div class="stat-label">WHAT TO DO</div><div class="stat-value" style="font-weight:400; font-size:11px">${it.instructions || 'No instructions added.'}</div></div>
-        <div class="detail-row"><div class="stat-label">TECH SPECS</div><div class="stat-value" style="font-weight:400; font-size:11px">${it.specs || 'N/A'}</div></div>
-
-        <div class="stat-label" style="margin:24px 0 10px">History Log (${it.history.length})</div>
-        ${it.history.length ? [...it.history].reverse().map((h, i) => `
-            <div class="detail-row" style="background:#0a0d14; border-color:var(--border)">
-                <div style="display:flex; justify-content:space-between">
-                    <span style="font-weight:700; color:var(--accent-light)">${h.date}</span>
-                    <button style="background:none; border:none; color:var(--red); cursor:pointer" onclick="delLog('${it.id}', ${it.history.length-1-i})">✕</button>
-                </div>
-                <div style="font-size:11px; margin-top:4px">${h.km.toLocaleString()} km — ${h.note}</div>
-                <div style="font-size:10px; color:var(--green); margin-top:4px">Spent: ${V.currency}${h.cost}</div>
-            </div>`).join('') : '<div style="font-size:10px; color:var(--text-dim)">No history logged.</div>'}
+        <button class="btn btn-primary" style="width:100%; margin-bottom:15px" onclick="openLogModal('${it.id}')">＋ Log Service</button>
+        <div class="detail-row"><div class="stat-label">NEXT DUE</div><div class="stat-value">${it.nextKm ? it.nextKm.toLocaleString() + ' km' : '---'}</div></div>
+        <div class="detail-row"><div class="stat-label">SPECS</div><div class="stat-value" style="font-size:11px">${it.specs || 'N/A'}</div></div>
+        <div class="stat-label" style="margin:20px 0 10px">History</div>
+        ${it.history.map((h, i) => `<div class="detail-row" style="font-size:11px"><b>${h.date}</b>: ${h.km} km - $${h.cost}</div>`).reverse().join('')}
     `;
-}
-
-function openLogModal(id) {
-    const it = items.find(i => i.id === id);
-    showM(`
-        <div class="header-title">Log Service Entry</div>
-        <div class="stat-label">${it.component}</div>
-        <div class="quick-inputs" style="grid-template-columns:1fr 1fr; margin-top:20px">
-            <div><label class="stat-label">Date</label><input type="date" id="m_d" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
-            <div><label class="stat-label">KM</label><input type="number" id="m_k" class="form-input" value="${V.currentKm}"></div>
-        </div>
-        <div style="margin-top:15px"><label class="stat-label">Notes</label><input type="text" id="m_n" class="form-input" placeholder="What was done?"></div>
-        <div style="margin-top:15px"><label class="stat-label">Cost</label><input type="number" id="m_c" class="form-input" value="0"></div>
-        <button class="btn btn-primary" style="width:100%; margin-top:20px" onclick="saveLog('${id}', false)">Save Log</button>
-    `);
 }
 
 function saveLog(id, fromQuick) {
@@ -257,46 +218,50 @@ function saveLog(id, fromQuick) {
     const d = fromQuick ? document.getElementById(`q_d_${id}`).value : document.getElementById("m_d").value;
     const k = Number(fromQuick ? document.getElementById(`q_k_${id}`).value : document.getElementById("m_k").value) || V.currentKm;
     const c = Number(fromQuick ? document.getElementById(`q_c_${id}`).value : document.getElementById("m_c").value) || 0;
-    const n = fromQuick ? "Quick Update" : document.getElementById("m_n").value;
-
-    it.history.push({ date: d, km: k, note: n, cost: c });
+    
+    it.history.push({ date: d, km: k, note: "Service", cost: c });
     if (it.freqKm > 0) it.nextKm = k + it.freqKm;
     if (k > V.currentKm) V.currentKm = k;
-    if (id === 'oil') V.lastOil = d;
     
-    persist(); closeM(); render();
+    persist(); 
+    closeM(); 
+    render();
     if (activeId === id) openDetail(id);
 }
 
-function openEditModal(id) {
-    const it = items.find(i => i.id === id);
+function openLogModal(id) {
     showM(`
-        <div class="header-title">✏ Component Setup</div>
-        <div style="margin-top:20px"><label class="stat-label">Icon (Emoji)</label><input type="text" id="e_i" class="form-input" value="${it.icon}"></div>
-        <div style="margin-top:15px"><label class="stat-label">Component Name</label><input type="text" id="e_n" class="form-input" value="${it.component}"></div>
-        <div style="margin-top:15px"><label class="stat-label">Maintenance Interval (KM)</label><input type="number" id="e_f" class="form-input" value="${it.freqKm}"></div>
-        <div style="margin-top:15px"><label class="stat-label">Next Due Override (KM)</label><input type="number" id="e_nd" class="form-input" value="${it.nextKm}"></div>
-        <div style="margin-top:15px"><label class="stat-label">What to do / Manual Reference</label><textarea id="e_inst" class="form-input">${it.instructions || ''}</textarea></div>
-        <div style="margin-top:15px"><label class="stat-label">Technical Specs</label><textarea id="e_s" class="form-input">${it.specs || ''}</textarea></div>
-        <button class="btn btn-primary" style="width:100%; margin-top:20px" onclick="saveEdit('${id}')">Save Changes</button>
+        <div class="header-title">Log Service</div>
+        <div class="quick-inputs" style="grid-template-columns:1fr 1fr; margin-top:20px">
+            <div><label class="stat-label">Date</label><input type="date" id="m_d" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
+            <div><label class="stat-label">KM</label><input type="number" id="m_k" class="form-input" value="${V.currentKm}"></div>
+        </div>
+        <div style="margin-top:15px"><label class="stat-label">Cost</label><input type="number" id="m_c" class="form-input" value="0"></div>
+        <button class="btn btn-primary" style="width:100%; margin-top:20px" onclick="saveLog('${id}', false)">Save Record</button>
     `);
 }
 
-function saveEdit(id) {
-    const it = items.find(i => i.id === id);
-    it.icon = document.getElementById("e_i").value;
-    it.component = document.getElementById("e_n").value;
-    it.freqKm = Number(document.getElementById("e_f").value);
-    it.nextKm = Number(document.getElementById("e_nd").value);
-    it.instructions = document.getElementById("e_inst").value;
-    it.specs = document.getElementById("e_s").value;
-    persist(); closeM(); render(); if(activeId === id) openDetail(id);
+function exportData() {
+    const data = { vehicle: V, logs: items };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `ninja_garage_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
 }
 
-function addNewItem() {
-    const id = "item_" + Date.now();
-    items.push({ id, icon:"🔧", component:"New Component", category:"GENERAL", nextKm:null, freqKm:0, freqMo:0, specs:"", instructions:"", history:[] });
-    persist(); render(); openDetail(id);
+function importDataTrigger() { document.getElementById('importFile').click(); }
+function handleImport(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        const data = JSON.parse(event.target.result);
+        V = data.vehicle;
+        items = data.logs;
+        persist();
+        location.reload();
+    };
+    reader.readAsText(file);
 }
 
 function editV(k) {
@@ -304,27 +269,16 @@ function editV(k) {
     if (val !== null) { V[k] = (['currentKm', 'avgCons'].includes(k) ? Number(val) : val); persist(); render(); }
 }
 
-function delLog(itId, idx) { if(confirm("Delete log entry?")) { items.find(i => i.id === itId).history.splice(idx, 1); persist(); render(); if(activeId===itId) openDetail(itId); } }
-function showM(h) { document.getElementById("modalBox").innerHTML = h; document.getElementById("modalOverlay").style.display = "flex"; }
-function closeM() { document.getElementById("modalOverlay").style.display = "none"; }
-function overlayClick(e) { if(e.target.id === "modalOverlay") closeM(); }
-
-// --- PORTABILITY FEATURES ---
-function exportData() {
-    const data = { v: V, i: items };
-    const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `ninja400_backup_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-}
-
 function resetData() {
-    if(confirm("DANGER: This will delete ALL your logs and reset to defaults. Continue?")) {
+    if(confirm("DANGER: This will delete ALL your logs. Continue?")) {
         localStorage.clear();
         location.reload();
     }
 }
+
+function showM(h) { document.getElementById("modalBox").innerHTML = h; document.getElementById("modalOverlay").style.display = "flex"; }
+function closeM() { document.getElementById("modalOverlay").style.display = "none"; }
+function overlayClick(e) { if(e.target.id === "modalOverlay") closeM(); }
 
 load(); render();
 </script>
