@@ -2,89 +2,195 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ninja 400 — Elite Garage Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Ninja Garage Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #0d0a0a; --bg-card: #140f0f; --bg-detail: #1a0d0d;
-  --border: #2a1e1e; --border-red: #4d1515;
-  --accent: #ef4444; --accent-light: #f87171;
-  --text: #f1f5f9; --text-muted: #94a3b8; --text-dim: #64748b;
-  --green: #22c55e; --green-bg: #052e16;
-  --amber: #f59e0b; --amber-bg: #2d1b00;
-  --red: #ef4444; --red-bg: #2d0a0a;
-  --input-bg: #1a1111;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0a0a;--bg-card:#140f0f;--bg-detail:#1a0d0d;
+  --border:#2a1e1e;--border-red:#4d1515;
+  --accent:#ef4444;--accent-light:#f87171;
+  --text:#f1f5f9;--text-muted:#94a3b8;--text-dim:#64748b;
+  --green:#22c55e;--green-bg:#052e16;
+  --amber:#f59e0b;--amber-bg:#2d1b00;
+  --red:#ef4444;--red-bg:#2d0a0a;
+  --input-bg:#1a1111;
 }
-body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',monospace; min-height:100vh; font-size:13px; line-height:1.4; }
-::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-thumb{background:var(--border-red);border-radius:10px}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;min-height:100vh;font-size:13px;line-height:1.4}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--border-red);border-radius:10px}
 
-.header{border-bottom:1px solid var(--border);padding:24px;background: linear-gradient(to bottom, #1a0d0d, var(--bg))}
-.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:15px;margin-bottom:18px}
-.header-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:#fff;text-transform:uppercase}
-.stats-row{display:flex;gap:10px;flex-wrap:wrap}
-.stat-box{border:1px solid var(--border-red);border-radius:10px;padding:10px 15px;background:rgba(26,13,13,0.5);cursor:pointer;transition:all 0.2s}
-.stat-box:hover{border-color:var(--accent);background:var(--bg-detail);transform:translateY(-2px)}
-.stat-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;margin-bottom:3px}
-.stat-value{color:var(--accent-light);font-size:13px;font-weight:700}
+/* HEADER */
+.header{border-bottom:1px solid var(--border);padding:16px 20px;background:linear-gradient(to bottom,#1a0d0d,var(--bg))}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.header-title-wrap{display:flex;align-items:center;gap:10px}
+.header-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:#fff;text-transform:uppercase;cursor:pointer}
+.header-title:hover{color:var(--accent-light)}
+.header-sub{font-size:9px;color:var(--text-muted);letter-spacing:2px;margin-top:2px}
+.stats-row{display:flex;gap:8px;flex-wrap:wrap}
+.stat-box{border:1px solid var(--border-red);border-radius:10px;padding:9px 13px;background:rgba(26,13,13,0.6);cursor:pointer;transition:all 0.2s}
+.stat-box:hover{border-color:var(--accent);transform:translateY(-2px)}
+.stat-label{font-size:8px;color:var(--text-muted);text-transform:uppercase;margin-bottom:2px;letter-spacing:1px}
+.stat-value{color:var(--accent-light);font-size:12px;font-weight:700}
+.odo-btns{display:flex;gap:4px;margin-top:5px}
+.odo-btn{padding:2px 6px;font-size:9px;border:1px solid var(--border-red);border-radius:4px;background:transparent;color:var(--text-muted);cursor:pointer;font-family:inherit;transition:all .15s}
+.odo-btn:hover{border-color:var(--accent);color:var(--accent-light)}
 
-.nav-row{display:flex;justify-content:space-between;align-items:center;padding:0 24px 15px;border-bottom:1px solid var(--border);background:var(--bg)}
-.nav-tabs{display:flex;gap:8px}
-.nav-pill{padding:8px 16px;border-radius:20px;border:1px solid var(--border-red);background:transparent;color:var(--text-dim);cursor:pointer;font-weight:700;font-size:11px;transition:all 0.2s}
+/* NAV */
+.nav-row{display:flex;justify-content:space-between;align-items:center;padding:0 20px 12px;border-bottom:1px solid var(--border);background:var(--bg);flex-wrap:wrap;gap:8px}
+.nav-tabs{display:flex;gap:5px;flex-wrap:wrap}
+.nav-pill{padding:7px 13px;border-radius:20px;border:1px solid var(--border-red);background:transparent;color:var(--text-dim);cursor:pointer;font-weight:700;font-size:10px;transition:all 0.2s;font-family:inherit;white-space:nowrap}
 .nav-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-pill:hover:not(.active){border-color:var(--accent-light);color:var(--text)}
+.nav-actions{display:flex;gap:5px;flex-wrap:wrap}
 
-#saveToast { position: fixed; bottom: 20px; right: 20px; background: var(--green); color: white; padding: 10px 20px; border-radius: 8px; display: none; font-weight: bold; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+/* TOAST */
+#saveToast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:10px 20px;border-radius:8px;display:none;font-weight:700;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.6);font-size:12px}
 
-.quick-container{max-width:850px;margin:20px auto;padding:0 20px}
-.quick-card{background:var(--bg-card);border:1px solid var(--border-red);border-radius:16px;padding:25px;margin-bottom:20px}
-.quick-question{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--accent-light);margin-bottom:15px}
-.quick-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px}
-
-.body-wrap{display:flex;min-height:calc(100vh - 160px)}
-.list-panel{flex:1;padding:20px 24px;overflow-y:auto;min-width:0}
-.detail-panel{width:480px;flex-shrink:0;padding:24px;overflow-y:auto;background:var(--bg-card);border-left:1px solid var(--border);display:none}
-
-.card{border:1px solid var(--border);border-radius:12px;padding:15px;background:var(--bg-card);display:flex;align-items:center;gap:15px;cursor:pointer;transition:all 0.2s;margin-bottom:8px}
-.card:hover{border-color:var(--border-red);background:#1a1111}
-.card.active{border-color:var(--accent);background:var(--bg-detail)}
-.detail-row{padding:10px 13px;background:var(--bg-detail);border:1px solid var(--border-red);border-radius:8px;margin-bottom:8px}
-.form-input{width:100%;padding:10px 12px;background:var(--input-bg);border:1px solid var(--border-red);border-radius:8px;color:var(--text);font-family:inherit;font-size:13px;outline:none}
-.btn{padding:10px 18px;border-radius:8px;border:1px solid var(--border-red);background:transparent;color:var(--text);font-family:inherit;font-size:11px;cursor:pointer;font-weight:700;transition:all 0.2s}
+/* BUTTONS */
+.btn{padding:9px 16px;border-radius:8px;border:1px solid var(--border-red);background:transparent;color:var(--text);font-family:inherit;font-size:11px;cursor:pointer;font-weight:700;transition:all 0.2s}
+.btn:hover{border-color:var(--accent-light)}
 .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:#dc2626}
+.btn-green{background:var(--green);border-color:var(--green);color:#fff}
+.btn-green:hover{background:#16a34a}
 .btn-danger{border-color:var(--red);color:var(--red)}
+.btn-danger:hover{background:var(--red-bg)}
+.btn-big{padding:16px 20px;font-size:14px;border-radius:12px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
 
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:200;display:flex;align-items:center;justify-content:center}
-.modal{background:#181010;border:1px solid var(--accent);border-radius:16px;padding:28px;width:550px;max-width:95vw;max-height:90vh;overflow-y:auto}
+/* FORMS */
+.form-input{width:100%;padding:10px 12px;background:var(--input-bg);border:1px solid var(--border-red);border-radius:8px;color:var(--text);font-family:inherit;font-size:13px;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--accent)}
+.form-input[type=date]{color-scheme:dark}
+select.form-input option{background:#181010}
+textarea.form-input{resize:vertical;min-height:60px;line-height:1.5}
+.form-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block}
+.form-group{margin-bottom:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* HEALTH BAR */
+.health-bar-wrap{margin:8px 0 4px}
+.health-bar-bg{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.health-bar-fill{height:100%;border-radius:3px;transition:width 0.4s ease}
+
+/* CARDS */
+.card{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--bg-card);cursor:pointer;transition:all 0.2s;margin-bottom:8px}
+.card:hover{border-color:var(--border-red)}
+.card.active{border-color:var(--accent)}
+.card-row{display:flex;align-items:center;gap:12px}
+.detail-row{padding:10px 13px;background:var(--bg-detail);border:1px solid var(--border-red);border-radius:8px;margin-bottom:8px}
+.section-title{font-size:9px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin:18px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+
+/* QUICK TAB */
+.quick-container{max-width:900px;margin:0 auto;padding:20px}
+.quick-card{background:var(--bg-card);border:1px solid var(--border-red);border-radius:16px;padding:20px;margin-bottom:15px}
+.quick-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--accent-light);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* BODY LAYOUT */
+.body-wrap{display:flex;min-height:calc(100vh - 168px)}
+.list-panel{flex:1;padding:18px 20px;overflow-y:auto;min-width:0}
+.detail-panel{width:460px;flex-shrink:0;padding:20px;overflow-y:auto;background:var(--bg-card);border-left:1px solid var(--border);display:none}
+
+/* BADGE */
+.badge{font-size:9px;font-weight:700;border-radius:4px;padding:2px 7px;letter-spacing:1px}
+.badge-ok{color:var(--green);background:var(--green-bg);border:1px solid #22c55e33}
+.badge-due{color:var(--amber);background:var(--amber-bg);border:1px solid #f59e0b33;animation:pulse 2s infinite}
+.badge-overdue{color:var(--red);background:var(--red-bg);border:1px solid #ef444433;animation:pulse 1.5s infinite}
+.badge-na{color:var(--text-dim);background:var(--border);border:1px solid var(--border)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:flex;align-items:center;justify-content:center}
+.modal{background:#181010;border:1px solid var(--accent);border-radius:16px;padding:26px;width:560px;max-width:96vw;max-height:92vh;overflow-y:auto}
+.modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px}
+.modal-sub{font-size:9px;color:var(--text-muted);letter-spacing:1.5px;margin-bottom:18px}
+
+/* LOG TAB */
+.log-table{width:100%;border-collapse:collapse;font-size:11px}
+.log-table th{text-align:left;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);padding:8px 10px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.log-table th:hover{color:var(--accent-light)}
+.log-table td{padding:9px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+.log-table tr:hover td{background:var(--bg-card)}
+
+/* TODO TAB */
+.todo-item{display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;transition:all .2s}
+.todo-item.done{opacity:.4}
+.todo-item.done .todo-text{text-decoration:line-through}
+.todo-priority{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.p-high{background:#ef4444}.p-med{background:#f59e0b}.p-low{background:#22c55e}
+
+/* MY BIKE TAB */
+.bike-profile{max-width:700px;margin:0 auto;padding:30px 20px}
+.bike-hero{border:1px solid var(--border-red);border-radius:20px;padding:30px;background:linear-gradient(135deg,#1a0d0d,#0d0a0a);margin-bottom:20px;text-align:center}
+.bike-hero-name{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--accent-light);text-shadow:0 0 40px rgba(239,68,68,.3)}
+.bike-hero-year{font-size:14px;color:var(--text-muted);letter-spacing:4px;margin-top:4px}
+.bike-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bike-spec-card{background:var(--bg-card);border:1px solid var(--border-red);border-radius:12px;padding:16px}
+.bike-spec-label{font-size:8px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.bike-spec-value{font-size:15px;font-weight:700;color:var(--accent-light)}
+
+/* SHOPPING LIST */
+.shop-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.shop-item{background:var(--bg-card);border:1px solid var(--border-red);border-radius:10px;padding:13px}
+.shop-item-icon{font-size:18px;margin-bottom:6px}
+.shop-item-name{font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.shop-item-spec{font-size:12px;font-weight:700;color:var(--accent-light)}
+
+/* EDITABLE */
+.editable{cursor:pointer;border-bottom:1px dashed var(--border-red);padding-bottom:1px;transition:border-color .2s}
+.editable:hover{border-color:var(--accent-light);color:var(--accent-light)}
+
+/* REPORT */
+.report-box{background:var(--input-bg);border:1px solid var(--border-red);border-radius:8px;padding:16px;font-size:11px;line-height:2;white-space:pre-wrap;max-height:400px;overflow-y:auto;color:var(--text-muted)}
+
+@media(max-width:700px){
+  .body-wrap{flex-direction:column}
+  .detail-panel{width:100%;border-left:none;border-top:1px solid var(--border)}
+  .form-row,.form-row-3{grid-template-columns:1fr}
+  .bike-specs-grid{grid-template-columns:1fr}
+  .nav-tabs{gap:3px}
+  .nav-pill{padding:6px 9px;font-size:9px}
+}
 </style>
 </head>
 <body>
 
-<div id="saveToast">✅ Changes Saved</div>
+<div id="saveToast">✅ Saved</div>
 
+<!-- HEADER -->
 <div class="header">
   <div class="header-top">
     <div>
-      <div class="header-title">🥷 Ninja 400 Garage</div>
-      <div style="font-size:10px; color:var(--text-muted); letter-spacing:2px">PRO RIDER PERFORMANCE LOG</div>
+      <div class="header-title-wrap">
+        <span id="headerTitle" class="header-title" onclick="editGlobal('bikeTitle')" title="Click to rename">🥷 MY GARAGE</span>
+      </div>
+      <div class="header-sub" id="headerSub">MAINTENANCE LOG TRACKER</div>
     </div>
     <div class="stats-row" id="statsRow"></div>
   </div>
 </div>
 
+<!-- NAV -->
 <div class="nav-row">
-    <div class="nav-tabs">
-        <button class="nav-pill active" id="btnQUICK" onclick="setTab('QUICK')">⚡ QUICK ACTION</button>
-        <button class="nav-pill" id="btnALL" onclick="setTab('ALL')">📋 ALL COMPONENTS</button>
-    </div>
-    <div style="display:flex; gap:5px">
-        <button class="btn" style="padding:5px 10px; font-size:9px; color:var(--green)" onclick="exportData()">💾 BACKUP</button>
-        <button class="btn" style="padding:5px 10px; font-size:9px" onclick="importDataTrigger()">📥 IMPORT</button>
-        <button class="btn" style="padding:5px 10px; font-size:9px; border-color:var(--red)" onclick="resetData()">⚠ RESET</button>
-    </div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-pill active" id="btnQUICK"  onclick="setTab('QUICK')">⚡ QUICK</button>
+    <button class="nav-pill"        id="btnALL"    onclick="setTab('ALL')">📋 COMPONENTS</button>
+    <button class="nav-pill"        id="btnSETUP"  onclick="setTab('SETUP')">🏍️ BIKE SETUP</button>
+    <button class="nav-pill"        id="btnBIKE"   onclick="setTab('BIKE')">🔖 MY BIKE</button>
+    <button class="nav-pill"        id="btnLOG"    onclick="setTab('LOG')">📜 FULL LOG</button>
+    <button class="nav-pill"        id="btnTODO"   onclick="setTab('TODO')">✅ TO-DO</button>
+    <button class="nav-pill"        id="btnSHOP"   onclick="setTab('SHOP')">🛒 SPECS</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn" style="padding:5px 9px;font-size:9px;color:var(--green)" onclick="globalSave()">💾 SAVE</button>
+    <button class="btn" style="padding:5px 9px;font-size:9px;color:var(--accent-light)" onclick="exportData()">📤 BACKUP</button>
+    <button class="btn" style="padding:5px 9px;font-size:9px" onclick="importDataTrigger()">📥 IMPORT</button>
+    <button class="btn" style="padding:5px 9px;font-size:9px;border-color:var(--red);color:var(--red)" onclick="resetData()">⚠ RESET</button>
+  </div>
 </div>
-<input type="file" id="importFile" style="display:none" onchange="handleImport(event)">
+<input type="file" id="importFile" style="display:none" onchange="handleImport(event)" accept=".json">
 
 <div id="mainContent"></div>
 
@@ -93,198 +199,931 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',mon
 </div>
 
 <script>
-// --- DATA SYSTEM ---
-const DEF_VEHICLE = { currentKm: 30644, lastOil: "18/04/2026", purchaseDate: "19/11/2025", avgCons: 4.2, currency: "$" };
+// ═══════════════════════════════════════════════════════════
+// DEFAULT DATA — all zero / blank
+// ═══════════════════════════════════════════════════════════
+const DEF_V = {
+  bikeTitle: "MY GARAGE",
+  bikeSub: "MAINTENANCE LOG TRACKER",
+  currentKm: 0,
+  purchaseDate: "",
+  currency: "$",
+  avgCons: 0,
+  // Bike profile fields
+  make: "", model: "", year: "", cc: "", bikeType: "", color: "", vin: "", notes: "",
+};
+
 const DEF_ITEMS = [
-  { id:"oil", icon:"🛢️", component:"Engine Oil & Filter", category:"ENGINE", nextKm:42644, freqKm:12000, specs:"10W-40 Full Synth, 2.3L, HF303 Filter", instructions:"Drain old oil, replace filter, refill. Check dipstick.", history:[{date:"2026-04-18", km:30644, note:"Initial log", cost:115}] },
-  { id:"chain", icon:"⛓️", component:"Drive Chain", category:"DRIVE", nextKm:31244, freqKm:600, specs:"Slack: 20-30mm. Lube: Motul C4", instructions:"Clean with kerosene, apply lube. Check slack.", history:[] },
-  { id:"tyres", icon:"🛞", component:"Tyres", category:"WHEELS", nextKm:null, freqKm:0, specs:"32F/36R PSI. Dunlop GPR300", instructions:"Check pressure cold. Inspect tread.", history:[] },
-  { id:"brakes", icon:"🛑", component:"Brake System", category:"BRAKES", nextKm:null, freqKm:0, specs:"DOT 4 Fluid. OEM Pads.", instructions:"Check pad thickness (>1.5mm).", history:[] },
-  { id:"air", icon:"💨", component:"Air Filter", category:"ENGINE", nextKm:45000, freqKm:15000, specs:"OEM Filter", instructions:"Replace if paper is dark or oily.", history:[] }
+  { id:"oil",      icon:"🛢️", component:"Engine Oil & Filter", category:"ENGINE",  nextKm:null, freqKm:0, specs:"",           instructions:"", oilOnly:false, history:[] },
+  { id:"chain",    icon:"⛓️", component:"Drive Chain",         category:"DRIVE",   nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"tyres",    icon:"🛞", component:"Tyres",               category:"WHEELS",  nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"brakes",   icon:"🛑", component:"Brake System",        category:"BRAKES",  nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"air",      icon:"💨", component:"Air Filter",          category:"ENGINE",  nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"coolant",  icon:"🌡️", component:"Coolant",             category:"COOLING", nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"spark",    icon:"⚡", component:"Spark Plugs",         category:"IGNITION",nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"battery",  icon:"🔋", component:"Battery",             category:"ELECTRICAL",nextKm:null,freqKm:0,specs:"",          instructions:"", history:[] },
+  { id:"cables",   icon:"🎛️", component:"Controls & Cables",   category:"CONTROLS",nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"suspension",icon:"🔩",component:"Suspension",          category:"CHASSIS", nextKm:null, freqKm:0, specs:"",           instructions:"", history:[] },
+  { id:"wof",       icon:"✅",component:"WoF (Warrant of Fitness)",category:"LEGAL",nextKm:null,freqKm:0,specs:"",             instructions:"Annual inspection — book at VTNZ or AA.", history:[] },
+  { id:"rego",      icon:"📋",component:"Registration (REGO)",  category:"LEGAL", nextKm:null, freqKm:0, specs:"",             instructions:"Renew via NZTA — check expiry sticker.", history:[] },
 ];
 
-let V, items, currentTab = "QUICK", activeId = null;
+const DEF_TODOS = [];
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let V, items, todos, currentTab="QUICK", activeId=null, logSortAsc=false;
 
 function load() {
-  V = JSON.parse(localStorage.getItem("ninja_v_p2")) || JSON.parse(JSON.stringify(DEF_VEHICLE));
-  items = JSON.parse(localStorage.getItem("ninja_i_p2")) || JSON.parse(JSON.stringify(DEF_ITEMS));
+  try { V = JSON.parse(localStorage.getItem("ngp_v3")) || JSON.parse(JSON.stringify(DEF_V)); } catch { V = JSON.parse(JSON.stringify(DEF_V)); }
+  try {
+    items = JSON.parse(localStorage.getItem("ngp_i3"));
+    if (!items) throw 0;
+    // merge any new default items
+    DEF_ITEMS.forEach(d => { if (!items.find(i => i.id === d.id)) items.push(JSON.parse(JSON.stringify(d))); });
+  } catch { items = JSON.parse(JSON.stringify(DEF_ITEMS)); }
+  try { todos = JSON.parse(localStorage.getItem("ngp_t3")) || []; } catch { todos = []; }
 }
-function persist() { 
-  localStorage.setItem("ninja_v_p2", JSON.stringify(V)); 
-  localStorage.setItem("ninja_i_p2", JSON.stringify(items)); 
+
+function persist() {
+  localStorage.setItem("ngp_v3", JSON.stringify(V));
+  localStorage.setItem("ngp_i3", JSON.stringify(items));
+  localStorage.setItem("ngp_t3", JSON.stringify(todos));
   showToast();
 }
-function showToast() { 
-  const t = document.getElementById("saveToast"); t.style.display="block"; setTimeout(()=>t.style.display="none", 2000); 
-}
-const calcTotalCost = () => items.reduce((s, it) => s + it.history.reduce((sh, h) => sh + (Number(h.cost) || 0), 0), 0);
+function globalSave() { persist(); }
+function showToast() { const t=document.getElementById("saveToast"); t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }
 
+const gi = id => items.find(i => i.id === id);
+const totalCost = () => items.reduce((s,it) => s + it.history.reduce((sh,h) => sh+(Number(h.cost)||0),0), 0);
+const allLogs = () => items.flatMap(it => it.history.map(h => ({ ...h, component:it.component, icon:it.icon, id:it.id }))).sort((a,b) => logSortAsc ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date));
+
+function daysOwned() {
+  if (!V.purchaseDate) return null;
+  const diff = Date.now() - new Date(V.purchaseDate).getTime();
+  return Math.floor(diff / 86400000);
+}
+function timeOwned() {
+  const d = daysOwned();
+  if (d === null) return "—";
+  if (d < 30) return d + " days";
+  if (d < 365) return Math.floor(d/30) + "m " + (d%30) + "d";
+  return Math.floor(d/365) + "y " + Math.floor((d%365)/30) + "m";
+}
+
+function healthPct(it) {
+  if (!it.freqKm || !it.nextKm) return null;
+  const done = it.nextKm - V.currentKm;
+  const pct  = Math.max(0, Math.min(100, (done / it.freqKm) * 100));
+  return pct;
+}
+function healthColor(pct) {
+  if (pct > 60) return "#22c55e";
+  if (pct > 25) return "#f59e0b";
+  return "#ef4444";
+}
+
+function getStatus(it) {
+  if (!it.nextKm) return "na";
+  if (it.nextKm <= V.currentKm) return "overdue";
+  const rem = it.nextKm - V.currentKm;
+  if (rem < (it.freqKm * 0.15 || 500)) return "due";
+  return "ok";
+}
+function statusBadge(it) {
+  const s = getStatus(it);
+  if (s === "na")      return `<span class="badge badge-na">NO SCHEDULE</span>`;
+  if (s === "overdue") return `<span class="badge badge-overdue">OVERDUE</span>`;
+  if (s === "due")     return `<span class="badge badge-due">DUE SOON</span>`;
+  return `<span class="badge badge-ok">OK</span>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════
+const TABS = ["QUICK","ALL","SETUP","BIKE","LOG","TODO","SHOP"];
 function setTab(t) {
-    currentTab = t;
-    document.getElementById('btnQUICK').classList.toggle('active', t === 'QUICK');
-    document.getElementById('btnALL').classList.toggle('active', t === 'ALL');
-    render();
+  currentTab = t; activeId = null;
+  TABS.forEach(x => { const b=document.getElementById("btn"+x); if(b) b.classList.toggle("active", x===t); });
+  render();
 }
 
+// ═══════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════
 function render() {
-    renderStats();
-    const container = document.getElementById("mainContent");
-    if (currentTab === "QUICK") container.innerHTML = renderQuickTab();
-    else container.innerHTML = renderListTab();
+  renderStats();
+  updateHeader();
+  const c = document.getElementById("mainContent");
+  if      (currentTab==="QUICK") c.innerHTML = renderQuick();
+  else if (currentTab==="ALL")   c.innerHTML = renderAll();
+  else if (currentTab==="SETUP") c.innerHTML = renderSetup();
+  else if (currentTab==="BIKE")  c.innerHTML = renderBike();
+  else if (currentTab==="LOG")   c.innerHTML = renderLog();
+  else if (currentTab==="TODO")  c.innerHTML = renderTodo();
+  else if (currentTab==="SHOP")  c.innerHTML = renderShop();
+  if (currentTab==="ALL" && activeId) setTimeout(()=>openDetail(activeId),10);
+}
+
+function updateHeader() {
+  document.getElementById("headerTitle").textContent = (V.bikeTitle||"MY GARAGE");
+  document.getElementById("headerSub").textContent   = (V.bikeSub||"PRO RIDER PERFORMANCE LOG");
 }
 
 function renderStats() {
-    document.getElementById("statsRow").innerHTML = `
-        <div class="stat-box" onclick="editV('currentKm')"><div class="stat-label">ODO KM ✏</div><div class="stat-value">${Number(V.currentKm).toLocaleString()}</div></div>
-        <div class="stat-box" onclick="editV('lastOil')"><div class="stat-label">LAST OIL ✏</div><div class="stat-value">${V.lastOil}</div></div>
-        <div class="stat-box" onclick="editV('purchaseDate')"><div class="stat-label">PURCHASED ✏</div><div class="stat-value">${V.purchaseDate}</div></div>
-        <div class="stat-box" onclick="editV('avgCons')"><div class="stat-label">AVG CONS ✏</div><div class="stat-value">${V.avgCons} km/L</div></div>
-        <div class="stat-box"><div class="stat-label">TOTAL COST</div><div class="stat-value">${V.currency}${calcTotalCost().toLocaleString()}</div></div>
-    `;
+  const d = daysOwned();
+  document.getElementById("statsRow").innerHTML = `
+    <div class="stat-box" onclick="editV('currentKm')">
+      <div class="stat-label">ODO KM ✏</div>
+      <div class="stat-value">${Number(V.currentKm||0).toLocaleString()}</div>
+      <div class="odo-btns">
+        <button class="odo-btn" onclick="addKm(event,1)">+1</button>
+        <button class="odo-btn" onclick="addKm(event,10)">+10</button>
+        <button class="odo-btn" onclick="addKm(event,100)">+100</button>
+        <button class="odo-btn" onclick="addKm(event,500)">+500</button>
+      </div>
+    </div>
+    <div class="stat-box" onclick="editV('purchaseDate')">
+      <div class="stat-label">PURCHASED ✏</div>
+      <div class="stat-value">${V.purchaseDate ? new Date(V.purchaseDate).toLocaleDateString('en-NZ') : 'Set Date'}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">TIME OWNED</div>
+      <div class="stat-value">${timeOwned()}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">TOTAL SPENT</div>
+      <div class="stat-value">${V.currency||'$'}${totalCost().toFixed(2)}</div>
+    </div>
+    <div class="stat-box" onclick="editV('currency')">
+      <div class="stat-label">CURRENCY ✏</div>
+      <div class="stat-value">${V.currency||'$'}</div>
+    </div>
+  `;
 }
 
-function renderQuickTab() {
-    return `
-    <div class="quick-container">
-        <h2 style="font-family:'Syne'; color:#fff; margin-bottom:10px">⚡ Fast Garage Log</h2>
-        ${items.slice(0,3).map(q => `
-            <div class="quick-card">
-                <div class="quick-question">${q.icon} ${q.component}</div>
-                <div class="quick-inputs">
-                    <div><label class="stat-label">Date</label><input type="date" id="q_d_${q.id}" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
-                    <div><label class="stat-label">KM</label><input type="number" id="q_k_${q.id}" class="form-input" placeholder="${V.currentKm}"></div>
-                    <div><label class="stat-label">Cost</label><input type="number" id="q_c_${q.id}" class="form-input" value="0"></div>
-                </div>
-                <button class="btn btn-primary" style="margin-top:20px; width:100%" onclick="saveLog('${q.id}', true)">Log This Service</button>
-            </div>
-        `).join('')}
-    </div>`;
+function addKm(e, n) {
+  e.stopPropagation();
+  V.currentKm = (Number(V.currentKm)||0) + n;
+  persist(); render();
 }
 
-function renderListTab() {
-    return `
-    <div class="body-wrap">
-        <div class="list-panel">
-            ${items.map(it => `
-                <div class="card ${activeId === it.id ? 'active' : ''}" onclick="openDetail('${it.id}')">
-                    <div style="font-size:20px">${it.icon}</div>
-                    <div style="flex:1">
-                        <div style="font-weight:700">${it.component}</div>
-                        <div style="font-size:9px; color:var(--text-dim)">Next Due: ${it.nextKm ? it.nextKm.toLocaleString()+' km' : '---'}</div>
-                    </div>
-                </div>
-            `).join('')}
-            <button class="btn" style="width:100%; border-style:dashed; margin-top:10px" onclick="addNewItem()">＋ Add More Components</button>
+// ── QUICK TAB ──────────────────────────────────────────────
+function renderQuick() {
+  const quickItems = items.filter(it => it.id==='oil'||it.id==='chain'||it.id==='tyres'||it.id==='brakes'||it.id==='air');
+  return `<div class="quick-container">
+    <div style="font-size:10px;color:var(--text-dim);margin-bottom:16px;letter-spacing:1px">TAP A COMPONENT TO LOG A SERVICE — FASTEST WAY TO RECORD</div>
+    ${items.map(it => {
+      const pct = healthPct(it);
+      const st  = getStatus(it);
+      const rem = it.nextKm ? it.nextKm - V.currentKm : null;
+      return `
+      <div class="quick-card">
+        <div class="quick-title">${it.icon}
+          <span class="editable" onclick="openEditModal('${it.id}')">${it.component}</span>
+          ${statusBadge(it)}
         </div>
-        <div class="detail-panel" id="detailPanel"></div>
-    </div>`;
+        ${pct !== null ? `
+          <div class="health-bar-wrap">
+            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-dim);margin-bottom:4px">
+              <span>SERVICE HEALTH</span>
+              <span>${rem > 0 ? rem.toLocaleString()+' km left' : rem !== null ? 'OVERDUE by '+Math.abs(rem).toLocaleString()+' km' : ''}</span>
+            </div>
+            <div class="health-bar-bg"><div class="health-bar-fill" style="width:${pct}%;background:${healthColor(pct)}"></div></div>
+          </div>` : `<div style="font-size:9px;color:var(--text-dim);margin:6px 0">No service interval set — <span style="color:var(--accent-light);cursor:pointer" onclick="openEditModal('${it.id}')">click to configure</span></div>`}
+        <div class="form-row" style="margin:12px 0 0">
+          <div><label class="form-label">Date</label><input type="date" id="q_d_${it.id}" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
+          <div><label class="form-label">Odometer (km)</label><input type="number" id="q_k_${it.id}" class="form-input" value="${V.currentKm||0}"></div>
+        </div>
+        <div class="form-row" style="margin-top:8px">
+          <div><label class="form-label">Cost (${V.currency||'$'})</label><input type="number" id="q_c_${it.id}" class="form-input" value="0" step="0.01"></div>
+          ${it.id==='oil' ? `<div><label class="form-label">Service Type</label>
+            <select id="q_ot_${it.id}" class="form-input">
+              <option value="Oil+Filter">Oil + Filter</option>
+              <option value="Oil Only">Oil Only</option>
+            </select></div>` : `<div></div>`}
+        </div>
+        <div style="margin-top:8px"><label class="form-label">Notes</label><textarea id="q_n_${it.id}" class="form-input" placeholder="What was done, brand used, shop name..."></textarea></div>
+        <button class="btn btn-big btn-primary" style="margin-top:14px" onclick="saveLog('${it.id}',true)">＋ LOG ${it.component.toUpperCase()}</button>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ── ALL COMPONENTS TAB ─────────────────────────────────────
+function renderAll() {
+  return `<div class="body-wrap">
+    <div class="list-panel" id="compListPanel">
+      ${items.map(it => {
+        const pct = healthPct(it);
+        return `
+        <div class="card ${activeId===it.id?'active':''}" onclick="openDetail('${it.id}')">
+          <div class="card-row">
+            <div style="font-size:22px;flex-shrink:0">${it.icon}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                ${it.component} ${statusBadge(it)}
+              </div>
+              <div style="font-size:9px;color:var(--text-dim);margin-top:2px">
+                ${it.nextKm ? 'Next: '+it.nextKm.toLocaleString()+' km' : 'No schedule'} &nbsp;·&nbsp; ${it.history.length} entries
+              </div>
+              ${pct !== null ? `<div class="health-bar-wrap" style="margin-top:6px">
+                <div class="health-bar-bg"><div class="health-bar-fill" style="width:${pct}%;background:${healthColor(pct)}"></div></div>
+              </div>` : ''}
+            </div>
+            <div style="font-size:10px;color:var(--text-dim);flex-shrink:0;text-align:right">
+              ${it.history.length ? '$'+(it.history.reduce((s,h)=>s+(Number(h.cost)||0),0)).toFixed(0) : '—'}
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+      <button class="btn" style="width:100%;border-style:dashed;margin-top:10px" onclick="addNewItem()">＋ Add Component</button>
+    </div>
+    <div class="detail-panel" id="detailPanel"></div>
+  </div>`;
 }
 
 function openDetail(id) {
-    activeId = id; render();
-    const it = items.find(i => i.id === id);
-    const dp = document.getElementById("detailPanel");
-    dp.style.display = "block";
-    dp.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px">
-            <div style="font-size:20px">${it.icon} ${it.component}</div>
-            <button class="btn" onclick="activeId=null;render()">✕</button>
-        </div>
-        <button class="btn btn-primary" style="width:100%; margin-bottom:15px" onclick="openLogModal('${it.id}')">＋ Log New Entry</button>
-        <div class="detail-row"><div class="stat-label">STATUS</div><div class="stat-value" style="color:${it.nextKm && it.nextKm < V.currentKm ? 'var(--red)' : 'var(--green)'}">${it.nextKm && it.nextKm < V.currentKm ? 'OVERDUE' : 'OK'}</div></div>
-        <div class="detail-row"><div class="stat-label">NEXT DUE</div><div class="stat-value">${it.nextKm ? it.nextKm.toLocaleString() + ' km' : 'Manual'}</div></div>
-        <div class="detail-row"><div class="stat-label">TECH SPECS</div><div class="stat-value" style="font-size:11px; font-weight:400">${it.specs || 'None'}</div></div>
-        
-        <div class="stat-label" style="margin:25px 0 10px">LOG HISTORY (Tap ✕ to remove)</div>
-        ${it.history.length ? [...it.history].reverse().map((h, i) => `
-            <div class="detail-row" style="background:#0a0808; border-color:var(--border)">
-                <div style="display:flex; justify-content:space-between; align-items:center">
-                    <span style="font-weight:700; color:var(--accent-light)">${h.date}</span>
-                    <button class="btn-danger" style="background:none; border:none; cursor:pointer; font-size:14px" onclick="delLog('${it.id}', ${it.history.length-1-i})">✕</button>
-                </div>
-                <div style="font-size:11px; margin-top:4px">${h.km.toLocaleString()} km — ${V.currency}${h.cost}</div>
-            </div>`).join('') : '<div style="color:var(--text-dim); font-size:10px">No entries recorded.</div>'}
+  // If already on ALL tab with panel rendered, just refresh the panel without re-rendering whole page
+  const existingPanel = document.getElementById("detailPanel");
+  if (currentTab === 'ALL' && existingPanel) {
+    // Update active card highlighting
+    document.querySelectorAll('#compListPanel .card').forEach(c => c.classList.remove('active'));
+    const cards = document.querySelectorAll('#compListPanel .card');
+    // find and highlight clicked card by matching component id
+    items.forEach((it,i) => { if(it.id===id && cards[i]) cards[i].classList.add('active'); });
+    activeId = id;
+    fillDetailPanel(id);
+    return;
+  }
+  activeId = id;
+  render();
+  setTimeout(() => fillDetailPanel(id), 0);
+}
 
-        <button class="btn btn-danger" style="width:100%; margin-top:40px; font-size:10px; opacity:0.5" onclick="delComponent('${it.id}')">DELETE COMPONENT</button>
-    `;
+function fillDetailPanel(id) {
+  const it = gi(id);
+  if (!it) return;
+  const dp = document.getElementById("detailPanel");
+  if (!dp) return;
+  dp.style.display = "block";
+  const totalItemCost = it.history.reduce((s,h)=>s+(Number(h.cost)||0),0);
+  const pct = healthPct(it);
+  dp.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:8px">
+      <div style="font-size:16px;font-weight:700">${it.icon} <span class="editable" onclick="inlineEditComponent('${it.id}','component')">${it.component}</span></div>
+      <button class="btn" onclick="closeDetail()">✕</button>
+    </div>
+    <button class="btn btn-primary btn-big" style="margin-bottom:12px" onclick="openLogModal('${it.id}')">＋ LOG NEW ENTRY</button>
+    ${pct !== null ? `
+      <div class="health-bar-wrap" style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-dim);margin-bottom:5px">
+          <span>SERVICE HEALTH</span><span>${Math.round(pct)}%</span>
+        </div>
+        <div class="health-bar-bg" style="height:10px"><div class="health-bar-fill" style="width:${pct}%;background:${healthColor(pct)}"></div></div>
+      </div>` : ''}
+    <div class="detail-row"><div class="stat-label">STATUS</div><div>${statusBadge(it)}</div></div>
+    <div class="detail-row">
+      <div class="stat-label">NEXT DUE</div>
+      <div class="stat-value editable" onclick="inlineEditComponent('${it.id}','nextKm')">${it.nextKm ? it.nextKm.toLocaleString()+' km' : '— click to set'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="stat-label">SERVICE INTERVAL</div>
+      <div class="stat-value editable" onclick="inlineEditComponent('${it.id}','freqKm')">${it.freqKm ? it.freqKm.toLocaleString()+' km' : '— click to set'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="stat-label">TECH SPECS &nbsp;<span class="editable" onclick="inlineEditComponent('${it.id}','specs')" style="font-size:9px;color:var(--accent-light)">✏ EDIT</span></div>
+      <div style="font-size:11px;margin-top:4px;color:var(--text-muted)">${it.specs || '<span style="color:var(--text-dim)">Not set — click EDIT to add</span>'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="stat-label">INSTRUCTIONS &nbsp;<span class="editable" onclick="inlineEditComponent('${it.id}','instructions')" style="font-size:9px;color:var(--accent-light)">✏ EDIT</span></div>
+      <div style="font-size:11px;margin-top:4px;color:var(--text-muted)">${it.instructions || '<span style="color:var(--text-dim)">Not set — click EDIT to add</span>'}</div>
+    </div>
+    <div class="detail-row" style="display:flex;justify-content:space-between">
+      <div><div class="stat-label">TOTAL ENTRIES</div><div class="stat-value">${it.history.length}</div></div>
+      <div style="text-align:right"><div class="stat-label">TOTAL COST</div><div class="stat-value">$${totalItemCost.toFixed(2)}</div></div>
+    </div>
+
+    <div class="section-title">LOG HISTORY</div>
+    ${it.history.length ? [...it.history].reverse().map((h,ri) => {
+      const realIdx = it.history.length-1-ri;
+      return `<div style="background:#0a0808;border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <span style="font-weight:700;color:var(--accent-light)">${formatDate(h.date)}</span>
+            ${h.serviceType ? `<span style="font-size:9px;color:var(--text-dim);margin-left:8px">${h.serviceType}</span>` : ''}
+          </div>
+          <button style="background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:13px;padding:0;font-family:inherit" onclick="delLog('${it.id}',${realIdx})">✕</button>
+        </div>
+        <div style="font-size:11px;margin-top:4px;color:var(--text-muted)">${(h.km||0).toLocaleString()} km &nbsp;·&nbsp; $${Number(h.cost||0).toFixed(2)}</div>
+        ${h.note ? `<div style="font-size:10px;color:var(--text-dim);margin-top:5px;border-top:1px solid var(--border);padding-top:5px">${h.note}</div>` : ''}
+      </div>`;
+    }).join('') : '<div style="color:var(--text-dim);font-size:10px;padding:8px 0">No entries yet. Use LOG NEW ENTRY above.</div>'}
+
+    <div style="display:flex;gap:8px;margin-top:20px">
+      <button class="btn" style="flex:1" onclick="openEditModal('${it.id}')">✏ Edit Component</button>
+      <button class="btn btn-danger" onclick="delComponent('${it.id}')">🗑 Delete</button>
+    </div>
+  `;
+}
+
+function closeDetail() {
+  activeId = null;
+  const dp = document.getElementById("detailPanel");
+  if (dp) { dp.style.display="none"; dp.innerHTML=""; }
+  document.querySelectorAll('#compListPanel .card').forEach(c => c.classList.remove('active'));
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  const p = d.split('-');
+  return p.length===3 ? `${p[2]}/${p[1]}/${p[0]}` : d;
+}
+
+// ── BIKE SETUP TAB ─────────────────────────────────────────
+function renderSetup() {
+  const MAKES = ["Kawasaki","Yamaha","Honda","Suzuki","BMW","Ducati","KTM","Triumph","Harley-Davidson","Royal Enfield","Aprilia","MV Agusta","Indian","Husqvarna","Beta","Other"];
+  const TYPES = ["Sport","Naked/Streetfighter","Adventure/Dual-Sport","Cruiser","Touring","Enduro/Off-Road","Supermoto","Scrambler","Cafe Racer","Track/Race","Other"];
+  const YEARS = Array.from({length:35},(_,i)=>2025-i);
+  const COLS  = ["Black","White","Red","Blue","Green","Orange","Yellow","Grey","Silver","Custom"];
+
+  return `<div style="max-width:650px;margin:20px auto;padding:0 20px">
+    <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent-light);margin-bottom:4px">🏍️ Configure Your Bike</div>
+    <div style="font-size:10px;color:var(--text-muted);margin-bottom:22px;letter-spacing:1px">Fill in your details — view the result in the MY BIKE tab</div>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border-red);border-radius:16px;padding:22px;margin-bottom:16px">
+      <div style="font-size:10px;color:var(--text-muted);letter-spacing:2px;margin-bottom:16px;text-transform:uppercase">Bike Identity</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Make / Brand</label>
+          <select class="form-input" id="s_make" onchange="if(this.value==='Other')this.type='text'">
+            <option value="">Select Make...</option>
+            ${MAKES.map(m=>`<option value="${m}" ${V.make===m?'selected':''}>${m}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Model</label>
+          <input class="form-input" id="s_model" value="${V.model||''}" placeholder="e.g. Ninja 400">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Year</label>
+          <select class="form-input" id="s_year">
+            <option value="">Select Year...</option>
+            ${YEARS.map(y=>`<option value="${y}" ${V.year==y?'selected':''}>${y}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Engine (cc)</label>
+          <input class="form-input" id="s_cc" type="number" value="${V.cc||''}" placeholder="e.g. 399">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-input" id="s_type">
+            <option value="">Select Type...</option>
+            ${TYPES.map(t=>`<option value="${t}" ${V.bikeType===t?'selected':''}>${t}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Colour</label>
+          <select class="form-input" id="s_color">
+            <option value="">Select...</option>
+            ${COLS.map(c=>`<option value="${c}" ${V.color===c?'selected':''}>${c}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border-red);border-radius:16px;padding:22px;margin-bottom:16px">
+      <div style="font-size:10px;color:var(--text-muted);letter-spacing:2px;margin-bottom:16px;text-transform:uppercase">Ownership & Extras</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">VIN / Plate</label>
+          <input class="form-input" id="s_vin" value="${V.vin||''}" placeholder="VIN or Plate Number">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Avg Fuel Use (L/100km)</label>
+          <input class="form-input" id="s_avgcons" type="number" step="0.1" value="${V.avgCons||''}" placeholder="e.g. 4.2">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Custom Title (shown in header)</label>
+        <input class="form-input" id="s_title" value="${V.bikeTitle||''}" placeholder="e.g. 🥷 Ninja 400 Garage">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes / Mods / History</label>
+        <textarea class="form-input" id="s_notes" placeholder="Modifications, known issues, purchase history...">${V.notes||''}</textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="saveBikeSetup()">💾 SAVE & VIEW MY BIKE →</button>
+  </div>`;
+}
+
+function saveBikeSetup() {
+  V.make     = document.getElementById("s_make").value;
+  V.model    = document.getElementById("s_model").value;
+  V.year     = document.getElementById("s_year").value;
+  V.cc       = document.getElementById("s_cc").value;
+  V.bikeType = document.getElementById("s_type").value;
+  V.color    = document.getElementById("s_color").value;
+  V.vin      = document.getElementById("s_vin").value;
+  V.avgCons  = Number(document.getElementById("s_avgcons").value)||0;
+  V.notes    = document.getElementById("s_notes").value;
+  const t    = document.getElementById("s_title").value.trim();
+  if (t) V.bikeTitle = t;
+  persist(); setTab('BIKE');
+}
+
+// ── MY BIKE TAB ────────────────────────────────────────────
+function renderBike() {
+  const hasData = V.make || V.model || V.year;
+  if (!hasData) return `<div style="text-align:center;padding:60px 20px">
+    <div style="font-size:40px;margin-bottom:12px">🏍️</div>
+    <div style="font-family:'Syne',sans-serif;font-size:18px;color:var(--accent-light);margin-bottom:8px">No bike configured yet</div>
+    <div style="color:var(--text-muted);margin-bottom:20px">Go to BIKE SETUP tab to enter your details</div>
+    <button class="btn btn-primary" onclick="setTab('SETUP')">→ BIKE SETUP</button>
+  </div>`;
+
+  const name  = [V.year, V.make, V.model].filter(Boolean).join(' ');
+  const owned = daysOwned();
+  const totalLogs = allLogs().length;
+  const lastLog = allLogs()[0];
+
+  return `<div class="bike-profile">
+    <div class="bike-hero">
+      <div style="font-size:60px;margin-bottom:10px">🏍️</div>
+      <div class="bike-hero-name">${name || 'MY BIKE'}</div>
+      <div class="bike-hero-year">${V.bikeType||''} ${V.cc ? '· '+V.cc+'cc' : ''} ${V.color ? '· '+V.color : ''}</div>
+    </div>
+
+    <div class="bike-specs-grid">
+      ${bikeCard("MAKE",         V.make||'—')}
+      ${bikeCard("MODEL",        V.model||'—')}
+      ${bikeCard("YEAR",         V.year||'—')}
+      ${bikeCard("ENGINE",       V.cc ? V.cc+'cc' : '—')}
+      ${bikeCard("TYPE",         V.bikeType||'—')}
+      ${bikeCard("COLOUR",       V.color||'—')}
+      ${bikeCard("ODOMETER",     Number(V.currentKm||0).toLocaleString()+' km')}
+      ${bikeCard("TIME OWNED",   timeOwned())}
+      ${bikeCard("PURCHASED",    V.purchaseDate ? new Date(V.purchaseDate).toLocaleDateString('en-NZ') : '—')}
+      ${bikeCard("VIN / PLATE",  V.vin||'—')}
+      ${bikeCard("FUEL USE",     V.avgCons ? V.avgCons+' L/100km' : '—')}
+      ${bikeCard("TOTAL COST",   (V.currency||'$')+totalCost().toFixed(2))}
+      ${bikeCard("TOTAL LOGS",   totalLogs+' entries')}
+      ${bikeCard("LAST SERVICE", lastLog ? formatDate(lastLog.date)+' ('+lastLog.component+')' : '—')}
+    </div>
+
+    ${V.notes ? `<div style="background:var(--bg-card);border:1px solid var(--border-red);border-radius:12px;padding:18px;margin-top:16px">
+      <div class="stat-label" style="margin-bottom:8px">NOTES / MODS</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.8;white-space:pre-wrap">${V.notes}</div>
+    </div>` : ''}
+
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+      <button class="btn" onclick="setTab('SETUP')">✏ Edit Details</button>
+      <button class="btn btn-primary" onclick="generateReport()">📄 Generate Service Report</button>
+    </div>
+  </div>`;
+}
+function bikeCard(label, val) {
+  return `<div class="bike-spec-card"><div class="bike-spec-label">${label}</div><div class="bike-spec-value">${val}</div></div>`;
+}
+
+// ── FULL LOG TAB ───────────────────────────────────────────
+function renderLog() {
+  const logs = allLogs();
+  return `<div style="padding:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent-light)">📜 Full Service Log</div>
+        <div style="font-size:9px;color:var(--text-muted);margin-top:2px">${logs.length} total entries · click headers to sort</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" style="font-size:10px" onclick="exportCSV()">📊 Export CSV</button>
+        <button class="btn btn-primary" style="font-size:10px" onclick="generateReport()">📄 Service Report</button>
+      </div>
+    </div>
+    ${logs.length ? `
+    <div style="overflow-x:auto">
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th onclick="logSortAsc=!logSortAsc;render()">DATE ${logSortAsc?'↑':'↓'}</th>
+            <th>COMPONENT</th>
+            <th>ODO</th>
+            <th>COST</th>
+            <th>TYPE</th>
+            <th>NOTES</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${logs.map(h=>`<tr>
+            <td style="white-space:nowrap;font-weight:700;color:var(--accent-light)">${formatDate(h.date)}</td>
+            <td><span style="font-size:14px">${h.icon}</span> ${h.component}</td>
+            <td style="white-space:nowrap">${(h.km||0).toLocaleString()} km</td>
+            <td style="white-space:nowrap;color:var(--green)">${V.currency||'$'}${Number(h.cost||0).toFixed(2)}</td>
+            <td style="color:var(--text-dim);white-space:nowrap">${h.serviceType||'—'}</td>
+            <td style="color:var(--text-dim);font-size:10px;max-width:200px">${h.note||'—'}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:var(--bg-card);border:1px solid var(--border-red);border-radius:8px;display:flex;gap:20px;flex-wrap:wrap">
+      <div><div class="stat-label">TOTAL ENTRIES</div><div class="stat-value">${logs.length}</div></div>
+      <div><div class="stat-label">TOTAL SPENT</div><div class="stat-value" style="color:var(--green)">${V.currency||'$'}${totalCost().toFixed(2)}</div></div>
+      <div><div class="stat-label">FIRST LOG</div><div class="stat-value">${logs.length ? formatDate(logs[logs.length-1].date) : '—'}</div></div>
+      <div><div class="stat-label">LATEST LOG</div><div class="stat-value">${logs.length ? formatDate(logs[0].date) : '—'}</div></div>
+    </div>` : `<div style="text-align:center;padding:60px 20px;color:var(--text-dim)">
+      <div style="font-size:40px;margin-bottom:12px">📭</div>
+      <div>No logs yet. Start logging from the QUICK or COMPONENTS tab.</div>
+    </div>`}
+  </div>`;
+}
+
+// ── TO-DO TAB ──────────────────────────────────────────────
+function renderTodo() {
+  const priorities = {high:"🔴 High",med:"🟡 Medium",low:"🟢 Low"};
+  return `<div style="max-width:650px;margin:20px auto;padding:0 20px">
+    <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent-light);margin-bottom:4px">✅ Maintenance To-Do</div>
+    <div style="font-size:9px;color:var(--text-muted);margin-bottom:18px;letter-spacing:1px">Future tasks, reminders, things to buy or check</div>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border-red);border-radius:14px;padding:18px;margin-bottom:16px">
+      <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-bottom:12px;text-transform:uppercase">Add Task</div>
+      <div class="form-group"><label class="form-label">Task</label><input class="form-input" id="todo_task" placeholder="e.g. Buy new chain lube"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-input" id="todo_pri">
+            <option value="high">🔴 High</option>
+            <option value="med" selected>🟡 Medium</option>
+            <option value="low">🟢 Low</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Due Date (optional)</label>
+          <input class="form-input" type="date" id="todo_due">
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" id="todo_note" placeholder="Extra details..."></textarea></div>
+      <button class="btn btn-primary" style="width:100%;padding:12px" onclick="addTodo()">＋ ADD TASK</button>
+    </div>
+
+    <div style="font-size:10px;color:var(--text-dim);margin-bottom:10px">${todos.filter(t=>!t.done).length} pending · ${todos.filter(t=>t.done).length} done</div>
+
+    ${todos.length ? todos.map((t,i)=>`
+      <div class="todo-item ${t.done?'done':''}">
+        <div class="todo-priority p-${t.priority||'med'}"></div>
+        <div style="flex:1;min-width:0">
+          <div class="todo-text" style="font-weight:700;margin-bottom:3px">${t.task}</div>
+          ${t.due ? `<div style="font-size:9px;color:var(--text-dim)">📅 Due: ${formatDate(t.due)}</div>` : ''}
+          ${t.note ? `<div style="font-size:10px;color:var(--text-muted);margin-top:4px">${t.note}</div>` : ''}
+          <div style="font-size:9px;color:var(--text-dim);margin-top:3px">${{high:'🔴 High',med:'🟡 Medium',low:'🟢 Low'}[t.priority||'med']}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="btn" style="padding:5px 8px;font-size:10px" onclick="toggleTodo(${i})">${t.done?'↩':'✓'}</button>
+          <button class="btn btn-danger" style="padding:5px 8px;font-size:10px" onclick="deleteTodo(${i})">✕</button>
+        </div>
+      </div>`).join('') : `<div style="text-align:center;padding:40px 20px;color:var(--text-dim)">
+        <div style="font-size:30px;margin-bottom:10px">📝</div>No tasks yet.</div>`}
+
+    ${todos.some(t=>t.done) ? `<button class="btn" style="width:100%;margin-top:10px;font-size:10px;opacity:.5" onclick="clearDoneTodos()">🗑 Clear Completed Tasks</button>` : ''}
+  </div>`;
+}
+
+function addTodo() {
+  const task = document.getElementById("todo_task").value.trim();
+  if (!task) { alert("Please enter a task."); return; }
+  todos.push({
+    task,
+    priority: document.getElementById("todo_pri").value,
+    due:  document.getElementById("todo_due").value || null,
+    note: document.getElementById("todo_note").value.trim(),
+    done: false,
+    created: new Date().toISOString().split('T')[0]
+  });
+  persist(); render();
+}
+function toggleTodo(i) { todos[i].done = !todos[i].done; persist(); render(); }
+function deleteTodo(i) { if(confirm("Delete task?")) { todos.splice(i,1); persist(); render(); } }
+function clearDoneTodos() { todos = todos.filter(t=>!t.done); persist(); render(); }
+
+// ── SHOPPING / SPECS TAB ───────────────────────────────────
+function renderShop() {
+  return `<div style="padding:20px;max-width:900px;margin:0 auto">
+    <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent-light);margin-bottom:4px">🛒 Quick Reference Specs</div>
+    <div style="font-size:9px;color:var(--text-muted);margin-bottom:20px;letter-spacing:1px">Your tech specs for every component — use this at the shop. Click ✏ to edit any spec.</div>
+    <div class="shop-list">
+      ${items.filter(it=>it.specs).map(it=>`
+        <div class="shop-item">
+          <div class="shop-item-icon">${it.icon}</div>
+          <div class="shop-item-name">${it.component}</div>
+          <div class="shop-item-spec">${it.specs}</div>
+          <button class="btn" style="padding:4px 8px;font-size:9px;margin-top:8px;width:100%" onclick="inlineEditComponent('${it.id}','specs')">✏ Edit</button>
+        </div>`).join('')}
+      ${items.filter(it=>!it.specs).map(it=>`
+        <div class="shop-item" style="opacity:.45;cursor:pointer" onclick="inlineEditComponent('${it.id}','specs')">
+          <div class="shop-item-icon">${it.icon}</div>
+          <div class="shop-item-name">${it.component}</div>
+          <div style="font-size:10px;color:var(--text-dim)">+ Add specs</div>
+        </div>`).join('')}
+    </div>
+    ${V.avgCons ? `<div style="margin-top:20px;padding:16px;background:var(--bg-card);border:1px solid var(--border-red);border-radius:12px">
+      <div class="stat-label" style="margin-bottom:8px">FUEL REFERENCE</div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <div><div class="stat-label">AVG CONSUMPTION</div><div class="stat-value">${V.avgCons} L/100km</div></div>
+        <div><div class="stat-label">FULL TANK RANGE (est.)</div><div class="stat-value">${V.avgCons ? Math.round(14/V.avgCons*100)+'+ km' : '—'}</div></div>
+      </div>
+    </div>` : ''}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOG MODAL
+// ═══════════════════════════════════════════════════════════
+function openLogModal(id) {
+  const it = gi(id);
+  showM(`
+    <div class="modal-title">${it.icon} Log Service Entry</div>
+    <div class="modal-sub">${it.component.toUpperCase()}</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date</label><input type="date" id="m_d" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
+      <div class="form-group"><label class="form-label">Odometer (km)</label><input type="number" id="m_k" class="form-input" value="${V.currentKm||0}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Cost (${V.currency||'$'})</label><input type="number" id="m_c" class="form-input" value="0" step="0.01"></div>
+      ${id==='oil' ? `<div class="form-group"><label class="form-label">Service Type</label>
+        <select id="m_ot" class="form-input">
+          <option value="Oil+Filter">Oil + Filter</option>
+          <option value="Oil Only">Oil Only</option>
+        </select></div>` : `<div></div>`}
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea id="m_n" class="form-input" placeholder="What was done, parts used, shop, brand..."></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn" style="flex:1" onclick="closeM()">Cancel</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveLog('${id}',false)">💾 SAVE ENTRY</button>
+    </div>
+  `);
 }
 
 function saveLog(id, fromQuick) {
-    const it = items.find(i => i.id === id);
-    const d = fromQuick ? document.getElementById(`q_d_${id}`).value : document.getElementById("m_d").value;
-    const k = Number(fromQuick ? document.getElementById(`q_k_${id}`).value : document.getElementById("m_k").value) || V.currentKm;
-    const c = Number(fromQuick ? document.getElementById(`q_c_${id}`).value : document.getElementById("m_c").value) || 0;
-    
-    it.history.push({ date: d, km: k, cost: c });
-    if (it.freqKm > 0) it.nextKm = k + it.freqKm;
-    if (k > V.currentKm) V.currentKm = k;
-    if (id === 'oil') V.lastOil = d;
-    
-    persist(); closeM(); render();
-    if (activeId === id) openDetail(id);
+  const it = gi(id);
+  const d = fromQuick ? document.getElementById(`q_d_${id}`).value : document.getElementById("m_d").value;
+  const k = Number(fromQuick ? document.getElementById(`q_k_${id}`).value : document.getElementById("m_k").value) || V.currentKm || 0;
+  const c = Number(fromQuick ? document.getElementById(`q_c_${id}`).value : document.getElementById("m_c").value) || 0;
+  const n = fromQuick ? (document.getElementById(`q_n_${id}`)?.value||'') : (document.getElementById("m_n")?.value||'');
+  const ot = id==='oil' ? (fromQuick ? document.getElementById(`q_ot_${id}`)?.value : document.getElementById("m_ot")?.value) : null;
+
+  const entry = { date:d, km:k, cost:c, note:n };
+  if (ot) entry.serviceType = ot;
+
+  it.history.push(entry);
+  if (it.freqKm > 0) it.nextKm = k + it.freqKm;
+  if (k > (V.currentKm||0)) V.currentKm = k;
+
+  persist(); closeM();
+  if(currentTab==='ALL' && activeId===id) fillDetailPanel(id);
+  else render();
+  if(activeId===id && currentTab==='ALL') setTimeout(()=>fillDetailPanel(id),10);
 }
 
 function delLog(itId, idx) {
-    if(confirm("Permanently delete this entry?")) {
-        items.find(i => i.id === itId).history.splice(idx, 1);
-        persist(); openDetail(itId);
-    }
+  if(confirm("Delete this entry?")) {
+    gi(itId).history.splice(idx,1);
+    persist();
+    if(currentTab==='ALL') fillDetailPanel(itId);
+    else render();
+  }
 }
 
 function delComponent(id) {
-    if(confirm("Delete this entire component and its history?")) {
-        items = items.filter(i => i.id !== id);
-        activeId = null; persist(); render();
-    }
-}
-
-function openLogModal(id) {
-    showM(`
-        <div class="header-title">Log Service</div>
-        <div class="quick-inputs" style="grid-template-columns:1fr 1fr; margin-top:20px">
-            <div><label class="stat-label">Date</label><input type="date" id="m_d" class="form-input" value="${new Date().toISOString().split('T')[0]}"></div>
-            <div><label class="stat-label">KM</label><input type="number" id="m_k" class="form-input" value="${V.currentKm}"></div>
-        </div>
-        <div style="margin-top:15px"><label class="stat-label">Cost</label><input type="number" id="m_c" class="form-input" value="0"></div>
-        <button class="btn btn-primary" style="width:100%; margin-top:20px" onclick="saveLog('${id}', false)">Save Record</button>
-    `);
+  if(confirm("Delete this entire component and its history?")) {
+    items = items.filter(i=>i.id!==id);
+    activeId = null; persist(); render();
+  }
 }
 
 function addNewItem() {
-    const id = "item_" + Date.now();
-    items.push({ id, icon:"🔧", component:"New Component", category:"GENERAL", nextKm:null, freqKm:0, specs:"", instructions:"", history:[] });
-    persist(); render(); openDetail(id);
+  const id = "item_"+Date.now();
+  items.push({ id, icon:"🔧", component:"New Component", category:"GENERAL", nextKm:null, freqKm:0, specs:"", instructions:"", history:[] });
+  persist();
+  if(currentTab==='ALL') {
+    // re-render list only, then open detail
+    const c = document.getElementById("mainContent");
+    c.innerHTML = renderAll();
+    setTimeout(()=>fillDetailPanel(id),0);
+  } else {
+    render();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EDIT MODALS
+// ═══════════════════════════════════════════════════════════
+function openEditModal(id) {
+  const it = gi(id);
+  const e  = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  const ICONS = ["🛢️","⛓️","🛞","🛑","💨","🌡️","⚡","🔋","🎛️","🔩","🔧","🔑","🪛","🪤","💡","🧹","🧴","⚙️"];
+  showM(`
+    <div class="modal-title">✏ Edit Component</div>
+    <div class="modal-sub">${it.component.toUpperCase()}</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="e_n" value="${e(it.component)}"></div>
+      <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="e_cat" value="${e(it.category)}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Icon (emoji)</label>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        ${ICONS.map(ic=>`<span style="font-size:20px;cursor:pointer;padding:4px;border-radius:6px;border:1px solid var(--border);transition:border-color .2s" onclick="document.getElementById('e_ic').value='${ic}';this.parentElement.querySelectorAll('span').forEach(s=>s.style.borderColor='var(--border)');this.style.borderColor='var(--accent)'" title="${ic}">${ic}</span>`).join('')}
+      </div>
+      <input class="form-input" id="e_ic" value="${it.icon}" placeholder="Or type custom emoji">
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Service Interval (km)</label><input class="form-input" id="e_freq" type="number" value="${it.freqKm||0}"></div>
+      <div class="form-group"><label class="form-label">Next Due (km)</label><input class="form-input" id="e_next" type="number" value="${it.nextKm||''}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Tech Specs</label><textarea class="form-input" id="e_sp">${e(it.specs)}</textarea></div>
+    <div class="form-group"><label class="form-label">Instructions / Notes</label><textarea class="form-input" id="e_ins">${e(it.instructions)}</textarea></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn" style="flex:1" onclick="closeM()">Cancel</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveEditModal('${id}')">💾 SAVE CHANGES</button>
+    </div>
+  `);
+}
+
+function saveEditModal(id) {
+  const it = gi(id);
+  it.component    = document.getElementById("e_n").value.trim()   || it.component;
+  it.category     = document.getElementById("e_cat").value.trim() || it.category;
+  it.icon         = document.getElementById("e_ic").value.trim()  || it.icon;
+  it.freqKm       = Number(document.getElementById("e_freq").value)||0;
+  const nk        = document.getElementById("e_next").value;
+  it.nextKm       = nk ? Number(nk) : null;
+  it.specs        = document.getElementById("e_sp").value.trim();
+  it.instructions = document.getElementById("e_ins").value.trim();
+  persist(); closeM(); render();
+  if(currentTab==='ALL' && activeId===id) setTimeout(()=>fillDetailPanel(id),10);
+}
+
+function inlineEditComponent(id, field) {
+  const it = gi(id);
+  const labels = { component:"Component Name", freqKm:"Interval (km)", nextKm:"Next Due (km)", specs:"Tech Specs", instructions:"Instructions", category:"Category" };
+  const isText = ['specs','instructions'].includes(field);
+  showM(`
+    <div class="modal-title">✏ Edit: ${labels[field]||field}</div>
+    <div class="modal-sub">${it.component.toUpperCase()}</div>
+    <div class="form-group">
+      ${isText
+        ? `<textarea class="form-input" id="ie_val" style="min-height:100px">${(it[field]||'').replace(/</g,'&lt;')}</textarea>`
+        : `<input class="form-input" id="ie_val" type="${['freqKm','nextKm'].includes(field)?'number':'text'}" value="${it[field]||''}">`}
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn" style="flex:1" onclick="closeM()">Cancel</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveInline('${id}','${field}')">💾 Save</button>
+    </div>
+  `);
+}
+function saveInline(id, field) {
+  const it = gi(id);
+  const raw = document.getElementById("ie_val").value;
+  it[field] = ['freqKm','nextKm'].includes(field) ? (raw ? Number(raw) : null) : raw;
+  if (field==='freqKm' && it.history.length && it.freqKm) {
+    const lastKm = it.history[it.history.length-1].km || V.currentKm;
+    it.nextKm = lastKm + it.freqKm;
+  }
+  persist(); closeM();
+  if(currentTab==='ALL' && activeId===id) fillDetailPanel(id);
+  else render();
 }
 
 function editV(k) {
-    const val = prompt(`Update ${k}:`, V[k]);
-    if (val !== null) { V[k] = (['currentKm'].includes(k) ? Number(val) : val); persist(); render(); }
+  const labels = { currentKm:"Odometer (km)", purchaseDate:"Purchase Date", currency:"Currency Symbol", avgCons:"Avg Fuel Use (L/100km)" };
+  const isDate = k === 'purchaseDate';
+  showM(`
+    <div class="modal-title">✏ Edit: ${labels[k]||k}</div>
+    <div class="form-group" style="margin-top:16px">
+      <label class="form-label">${labels[k]||k}</label>
+      <input class="form-input" id="v_val" type="${isDate?'date':k==='currentKm'?'number':'text'}" value="${V[k]||''}">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn" style="flex:1" onclick="closeM()">Cancel</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveV_modal('${k}')">💾 Save</button>
+    </div>
+  `);
+}
+function saveV_modal(k) {
+  const raw = document.getElementById("v_val").value;
+  V[k] = (k==='currentKm'||k==='avgCons') ? Number(raw) : raw;
+  persist(); closeM(); render();
 }
 
+function editGlobal(k) {
+  const labels = { bikeTitle:"Header Title", bikeSub:"Subtitle" };
+  showM(`
+    <div class="modal-title">✏ Edit: ${labels[k]||k}</div>
+    <div class="form-group" style="margin-top:16px">
+      <label class="form-label">${labels[k]||k}</label>
+      <input class="form-input" id="g_val" value="${(V[k]||'').replace(/"/g,'&quot;')}">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn" style="flex:1" onclick="closeM()">Cancel</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveGlobal('${k}')">💾 Save</button>
+    </div>
+  `);
+}
+function saveGlobal(k) {
+  V[k] = document.getElementById("g_val").value;
+  persist(); closeM(); render();
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPORT / IMPORT / RESET
+// ═══════════════════════════════════════════════════════════
 function exportData() {
-    const blob = new Blob([JSON.stringify({ v: V, i: items }, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `ninja_garage_data.json`;
-    a.click();
+  const blob = new Blob([JSON.stringify({v:V,i:items,t:todos},null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `garage_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
 }
 
-function importDataTrigger() { document.getElementById('importFile').click(); }
+function exportCSV() {
+  const logs = allLogs();
+  const rows = [["Date","Component","Odometer","Cost","Service Type","Notes"]];
+  logs.forEach(h=>rows.push([formatDate(h.date),h.component,(h.km||0),h.cost||0,h.serviceType||'',`"${(h.note||'').replace(/"/g,"'")}"`]));
+  const csv = rows.map(r=>r.join(",")).join("\n");
+  const blob = new Blob([csv],{type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `service_log_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+function generateReport() {
+  const logs = allLogs();
+  const name = [V.year,V.make,V.model].filter(Boolean).join(' ') || 'My Bike';
+  const lines = [
+    `══════════════════════════════════════`,
+    `  SERVICE HISTORY REPORT`,
+    `  ${name}`,
+    `══════════════════════════════════════`,
+    `  Generated: ${new Date().toLocaleDateString('en-NZ')}`,
+    `  Odometer:  ${Number(V.currentKm||0).toLocaleString()} km`,
+    `  Time Owned: ${timeOwned()}`,
+    `  Total Spend: ${V.currency||'$'}${totalCost().toFixed(2)}`,
+    `  Total Entries: ${logs.length}`,
+    `══════════════════════════════════════`,
+    '',
+    ...logs.map(h=>`  ${formatDate(h.date)} | ${h.component.padEnd(22)} | ${String(h.km||0).padStart(7)} km | ${(V.currency||'$')+(h.cost||0).toFixed(2).padStart(7)}${h.note?' | '+h.note:''}`),
+    '',
+    `══════════════════════════════════════`,
+    `  Full service history available on request.`,
+    `══════════════════════════════════════`,
+  ];
+  const report = lines.join('\n');
+  showM(`
+    <div class="modal-title">📄 Service Report</div>
+    <div class="modal-sub">COPY & PASTE FOR ADS, TRADEME, FACEBOOK MARKETPLACE</div>
+    <div class="report-box" id="reportBox">${report}</div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('reportBox').innerText).then(()=>alert('Copied!'))">📋 Copy to Clipboard</button>
+      <button class="btn btn-primary" onclick="closeM()">Close</button>
+    </div>
+  `);
+}
+
+function importDataTrigger() { document.getElementById("importFile").click(); }
 function handleImport(e) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const data = JSON.parse(event.target.result);
-        V = data.v; items = data.i;
-        persist(); location.reload();
-    };
-    reader.readAsText(e.target.files[0]);
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      V = d.v || JSON.parse(JSON.stringify(DEF_V));
+      items = d.i || JSON.parse(JSON.stringify(DEF_ITEMS));
+      todos = d.t || [];
+      persist(); location.reload();
+    } catch { alert("Invalid backup file."); }
+  };
+  r.readAsText(e.target.files[0]);
 }
 
-function resetData() { if(confirm("WIPE ALL LOGS?")) { localStorage.clear(); location.reload(); } }
-function showM(h) { document.getElementById("modalBox").innerHTML = h; document.getElementById("modalOverlay").style.display = "flex"; }
-function closeM() { document.getElementById("modalOverlay").style.display = "none"; }
-function overlayClick(e) { if(e.target.id === "modalOverlay") closeM(); }
+function resetData() {
+  if(confirm("⚠ WIPE ALL DATA? This cannot be undone.")) {
+    localStorage.removeItem("ngp_v3");
+    localStorage.removeItem("ngp_i3");
+    localStorage.removeItem("ngp_t3");
+    location.reload();
+  }
+}
 
+function showM(h) { document.getElementById("modalBox").innerHTML=h; document.getElementById("modalOverlay").style.display="flex"; }
+function closeM() { document.getElementById("modalOverlay").style.display="none"; }
+function overlayClick(e) { if(e.target.id==="modalOverlay") closeM(); }
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeM(); });
+
+// ── BOOT ──────────────────────────────────────────────────
 load(); render();
 </script>
 </body>
