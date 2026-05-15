@@ -32,7 +32,8 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',mon
 .stat-value{color:var(--accent-light);font-size:13px;font-weight:700}
 
 /* NAVIGATION */
-.nav-row{display:flex;gap:8px;padding:0 24px 15px;border-bottom:1px solid var(--border);background:var(--bg)}
+.nav-row{display:flex;justify-content:space-between;align-items:center;padding:0 24px 15px;border-bottom:1px solid var(--border);background:var(--bg)}
+.nav-tabs{display:flex;gap:8px}
 .nav-pill{padding:8px 16px;border-radius:20px;border:1px solid var(--border-red);background:transparent;color:var(--text-dim);cursor:pointer;font-weight:700;font-size:11px;transition:all 0.2s}
 .nav-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
@@ -74,8 +75,14 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',mon
 </div>
 
 <div class="nav-row">
-    <button class="nav-pill active" id="btnQUICK" onclick="setTab('QUICK')">⚡ QUICK ACTION</button>
-    <button class="nav-pill" id="btnALL" onclick="setTab('ALL')">📋 ALL COMPONENTS</button>
+    <div class="nav-tabs">
+        <button class="nav-pill active" id="btnQUICK" onclick="setTab('QUICK')">⚡ QUICK ACTION</button>
+        <button class="nav-pill" id="btnALL" onclick="setTab('ALL')">📋 ALL COMPONENTS</button>
+    </div>
+    <div style="display:flex; gap:5px">
+        <button class="btn" style="padding:5px 10px; font-size:9px" onclick="exportData()">💾 BACKUP</button>
+        <button class="btn" style="padding:5px 10px; font-size:9px; border-color:var(--red)" onclick="resetData()">⚠ RESET</button>
+    </div>
 </div>
 
 <div id="mainContent"></div>
@@ -100,12 +107,12 @@ const DEF_ITEMS = [
 let V, items, currentTab = "QUICK", activeId = null;
 
 function load() {
-  V = JSON.parse(localStorage.getItem("ninja_v6")) || DEF_VEHICLE;
-  items = JSON.parse(localStorage.getItem("ninja_i6")) || DEF_ITEMS;
+  V = JSON.parse(localStorage.getItem("ninja_v_prod")) || JSON.parse(JSON.stringify(DEF_VEHICLE));
+  items = JSON.parse(localStorage.getItem("ninja_i_prod")) || JSON.parse(JSON.stringify(DEF_ITEMS));
 }
 function persist() { 
-  localStorage.setItem("ninja_v6", JSON.stringify(V)); 
-  localStorage.setItem("ninja_i6", JSON.stringify(items)); 
+  localStorage.setItem("ninja_v_prod", JSON.stringify(V)); 
+  localStorage.setItem("ninja_i_prod", JSON.stringify(items)); 
 }
 
 const calcTotalCost = () => items.reduce((s, it) => s + it.history.reduce((sh, h) => sh + (Number(h.cost) || 0), 0), 0);
@@ -301,6 +308,23 @@ function delLog(itId, idx) { if(confirm("Delete log entry?")) { items.find(i => 
 function showM(h) { document.getElementById("modalBox").innerHTML = h; document.getElementById("modalOverlay").style.display = "flex"; }
 function closeM() { document.getElementById("modalOverlay").style.display = "none"; }
 function overlayClick(e) { if(e.target.id === "modalOverlay") closeM(); }
+
+// --- PORTABILITY FEATURES ---
+function exportData() {
+    const data = { v: V, i: items };
+    const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `ninja400_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+}
+
+function resetData() {
+    if(confirm("DANGER: This will delete ALL your logs and reset to defaults. Continue?")) {
+        localStorage.clear();
+        location.reload();
+    }
+}
 
 load(); render();
 </script>
